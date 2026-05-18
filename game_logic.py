@@ -60,9 +60,69 @@ class HangmanGame:
         return self.max_wrong - len(self.wrong_guesses)
     
     def get_hangman_stage(self):
-        """Get ASCII hangman for current stage"""
+        """Get ASCII hangman for current stage (building up from empty)"""
         stages = [
-            # Final state: head, torso, both arms, and both legs
+            # Stage 0: Empty gallows
+            """
+               --------
+               |      |
+               |
+               |
+               |
+               |
+               -
+            """,
+            # Stage 1: Head
+            """
+               --------
+               |      |
+               |      O
+               |
+               |
+               |
+               -
+            """,
+            # Stage 2: Body
+            """
+               --------
+               |      |
+               |      O
+               |      |
+               |
+               |
+               -
+            """,
+            # Stage 3: Left arm
+            """
+               --------
+               |      |
+               |      O
+               |     \\|
+               |
+               |
+               -
+            """,
+            # Stage 4: Right arm
+            """
+               --------
+               |      |
+               |      O
+               |     \\|/
+               |
+               |
+               -
+            """,
+            # Stage 5: Left leg
+            """
+               --------
+               |      |
+               |      O
+               |     \\|/
+               |      |
+               |     /
+               -
+            """,
+            # Stage 6: Right leg (complete hangman)
             """
                --------
                |      |
@@ -70,66 +130,6 @@ class HangmanGame:
                |     \\|/
                |      |
                |     / \\
-               -
-            """,
-            # Head, torso, both arms, and one leg
-            """
-               --------
-               |      |
-               |      O
-               |     \\|/
-               |      |
-               |     / 
-               -
-            """,
-            # Head, torso, and both arms
-            """
-               --------
-               |      |
-               |      O
-               |     \\|/
-               |      |
-               |      
-               -
-            """,
-            # Head, torso, and one arm
-            """
-               --------
-               |      |
-               |      O
-               |     \\|
-               |      |
-               |     
-               -
-            """,
-            # Head and torso
-            """
-               --------
-               |      |
-               |      O
-               |      |
-               |      |
-               |     
-               -
-            """,
-            # Head
-            """
-               --------
-               |      |
-               |      O
-               |    
-               |      
-               |     
-               -
-            """,
-            # Initial empty state
-            """
-               --------
-               |      |
-               |      
-               |    
-               |      
-               |     
                -
             """
         ]
