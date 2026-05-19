@@ -26,14 +26,13 @@ def main():
         if not current_user:
             break
         
-        # Load words and start game
-        words = load_words()
-        word = random.choice(words)
-        
-        # Create game and UI
-        game = HangmanGame(word)
-        ui = HangmanUI(game, user_manager, current_user)
-        ui.show()
+        # Play game with same user until they quit
+        while True:
+            ui = HangmanUI(user_manager, current_user)
+            ui.show()
+            
+            # User clicked menu, go back to player selection
+            break
 
 if __name__ == "__main__":
     main()

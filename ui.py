@@ -1,18 +1,27 @@
 import tkinter as tk
+from tkinter import messagebox
+import random
 from game_logic import HangmanGame
-from user_manager import UserManager
 from game_over_screen import GameOverScreen
 
 class HangmanUI:
     """TKINTER GUI for Hangman game with input validation"""
     
-    def __init__(self, game, user_manager, username):
-        self.game = game
+    def __init__(self, user_manager, username):
         self.user_manager = user_manager
         self.username = username
         self.root = None
         self.letter_buttons = {}
         self.result_label = None
+        self.game = None
+        self.play_next_game()
+    
+    def play_next_game(self):
+        """Initialize a new game"""
+        from main import load_words
+        words = load_words()
+        word = random.choice(words)
+        self.game = HangmanGame(word)
     
     def show(self):
         """Display the game window"""
@@ -25,7 +34,7 @@ class HangmanUI:
         main_frame = tk.Frame(self.root, bg="#2c3e50")
         main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
         
-        # Title
+        # Title with username
         title = tk.Label(
             main_frame,
             text=f"👋 Welcome, {self.username}!",
@@ -133,10 +142,10 @@ class HangmanUI:
         
         tk.Button(
             control_frame,
-            text="🔄 New Game",
-            command=self.new_game,
+            text="🏠 Main Menu",
+            command=self.go_to_menu,
             font=("Arial", 11, "bold"),
-            bg="#3498db",
+            bg="#9b59b6",
             fg="white",
             padx=15,
             pady=8
@@ -145,7 +154,7 @@ class HangmanUI:
         tk.Button(
             control_frame,
             text="✕ Quit",
-            command=self.root.quit,
+            command=self.quit_game,
             font=("Arial", 11, "bold"),
             bg="#e74c3c",
             fg="white",
@@ -225,10 +234,20 @@ class HangmanUI:
         
         # Show beautiful game over screen
         if self.game.won:
-            GameOverScreen.show_win_screen(self.root, self.game.word, self.game.get_wrong_count())
+            result = GameOverScreen.show_win_screen(self.root, self.game.word, self.game.get_wrong_count())
         else:
-            GameOverScreen.show_lose_screen(self.root, self.game.word)
+            result = GameOverScreen.show_lose_screen(self.root, self.game.word)
+        
+        # If "Continue" was clicked, start new game
+        if result == "continue":
+            self.root.quit()
+            self.play_next_game()
+            self.show()
     
-    def new_game(self):
-        """Start a new game"""
+    def go_to_menu(self):
+        """Return to main menu"""
+        self.root.quit()
+    
+    def quit_game(self):
+        """Quit the game"""
         self.root.quit()
